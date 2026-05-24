@@ -23,32 +23,8 @@
 ---
 
 ## System Architecture Diagram
+[Fintech PII Compliance Platform — AWS Architecture](./architecture.png)
 
-> **Paste your exported Eraser.io PNG here after generating it. Replace the placeholder below:**
-
-```
-<!-- INSTRUCTIONS: Export your diagram from Eraser.io as PNG (2x resolution),
-     upload it to your GitHub repo under /assets/architecture.png,
-     then replace this block with: -->
-
-![Fintech PII Compliance Platform — AWS Architecture](./assets/architecture.png)
-```
-
-<div align="center">
-
-```
-
-                     PASTE YOUR ERASER.IO DIAGRAM HERE                       
-                                                                             
-   Export → PNG (2x) → Upload to /assets/architecture.png → link above      
-                                                                             
-   The Eraser.io prompt in this README generates the full diagram            
-
-```
-
-*Generate the diagram using the [Eraser.io prompt](#-eraserio-generation-prompt) at the bottom of this README*
-
-</div>
 
 ---
 
