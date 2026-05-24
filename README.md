@@ -22,7 +22,7 @@
 
 ---
 
-## 🗺️ System Architecture Diagram
+## System Architecture Diagram
 
 > **Paste your exported Eraser.io PNG here after generating it. Replace the placeholder below:**
 
@@ -37,13 +37,13 @@
 <div align="center">
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                     PASTE YOUR ERASER.IO DIAGRAM HERE                       │
-│                                                                             │
-│   Export → PNG (2x) → Upload to /assets/architecture.png → link above      │
-│                                                                             │
-│   The Eraser.io prompt in this README generates the full diagram            │
-└─────────────────────────────────────────────────────────────────────────────┘
+
+                     PASTE YOUR ERASER.IO DIAGRAM HERE                       
+                                                                             
+   Export → PNG (2x) → Upload to /assets/architecture.png → link above      
+                                                                             
+   The Eraser.io prompt in this README generates the full diagram            
+
 ```
 
 *Generate the diagram using the [Eraser.io prompt](#-eraserio-generation-prompt) at the bottom of this README*
@@ -52,39 +52,39 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 <details open>
 <summary><strong>Click to expand full index</strong></summary>
 
-- [🏗️ Architecture Overview](#️-architecture-overview)
-- [🎯 Why This Architecture? — The Philosophy](#-why-this-architecture--the-philosophy)
-- [🔐 Zone 1 — Client & Edge Layer](#-zone-1--client--edge-layer)
-- [🌐 Zone 2 — Edge Protection & WAF](#-zone-2--edge-protection--waf)
-- [🏰 Zone 3 — VPC & Network Isolation](#-zone-3--vpc--network-isolation)
-- [⚙️ Zone 4 — Microservices on EC2 + ASG](#️-zone-4--microservices-on-ec2--asg)
-- [🗄️ Zone 5 — Data Layer](#️-zone-5--data-layer)
-- [📦 Zone 6 — Sensitive Document Storage (S3)](#-zone-6--sensitive-document-storage-s3)
-- [🔑 Zone 7 — Security & Key Management](#-zone-7--security--key-management)
-- [📨 Zone 8 — Messaging & Async Processing](#-zone-8--messaging--async-processing)
-- [📊 Zone 9 — Monitoring, Observability & Incident Response](#-zone-9--monitoring-observability--incident-response)
-- [🛡️ Zone 10 — Network Security Groups & VPC Endpoints](#️-zone-10--network-security-groups--vpc-endpoints)
-- [🚀 Zone 11 — CI/CD & Infrastructure Pipeline](#-zone-11--cicd--infrastructure-pipeline)
-- [♻️ Zone 12 — Disaster Recovery & Backup](#️-zone-12--disaster-recovery--backup)
-- [📜 Zone 13 — Compliance & Regulatory Framework](#-zone-13--compliance--regulatory-framework)
-- [🔄 End-to-End KYC Data Flow](#-end-to-end-kyc-data-flow)
-- [🧮 Technology Decision Matrix](#-technology-decision-matrix)
-- [📐 Scalability Model](#-scalability-model)
-- [💰 Cost Architecture Considerations](#-cost-architecture-considerations)
-- [🗂️ Repository Structure](#️-repository-structure)
-- [🖼️ Eraser.io Generation Prompt](#️-eraserio-generation-prompt)
-- [🏁 Credits](#-credits)
+- [Architecture Overview](#-architecture-overview)
+- [Why This Architecture? — The Philosophy](#-why-this-architecture--the-philosophy)
+- [Zone 1 — Client & Edge Layer](#-zone-1--client--edge-layer)
+- [Zone 2 — Edge Protection & WAF](#-zone-2--edge-protection--waf)
+- [Zone 3 — VPC & Network Isolation](#-zone-3--vpc--network-isolation)
+- [Zone 4 — Microservices on EC2 + ASG](#-zone-4--microservices-on-ec2--asg)
+- [Zone 5 — Data Layer](#-zone-5--data-layer)
+- [Zone 6 — Sensitive Document Storage (S3)](#-zone-6--sensitive-document-storage-s3)
+- [Zone 7 — Security & Key Management](#-zone-7--security--key-management)
+- [Zone 8 — Messaging & Async Processing](#-zone-8--messaging--async-processing)
+- [Zone 9 — Monitoring, Observability & Incident Response](#-zone-9--monitoring-observability--incident-response)
+- [Zone 10 — Network Security Groups & VPC Endpoints](#-zone-10--network-security-groups--vpc-endpoints)
+- [Zone 11 — CI/CD & Infrastructure Pipeline](#-zone-11--cicd--infrastructure-pipeline)
+- [Zone 12 — Disaster Recovery & Backup](#-zone-12--disaster-recovery--backup)
+- [Zone 13 — Compliance & Regulatory Framework](#-zone-13--compliance--regulatory-framework)
+- [End-to-End KYC Data Flow](#-end-to-end-kyc-data-flow)
+- [Technology Decision Matrix](#-technology-decision-matrix)
+- [Scalability Model](#-scalability-model)
+- [Cost Architecture Considerations](#-cost-architecture-considerations)
+- [Repository Structure](#-repository-structure)
+- [Eraser.io Generation Prompt](#-eraserio-generation-prompt)
+- [Credits](#-credits)
 
 </details>
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 This system is designed to handle India's most regulated financial data categories with zero-trust principles across every layer. The architecture supports:
 
@@ -102,7 +102,7 @@ This system is designed to handle India's most regulated financial data categori
 
 ---
 
-## 🎯 Why This Architecture? — The Philosophy
+## Why This Architecture? — The Philosophy
 
 > Before diving into zones, understand *why* every major decision was made this way — and what alternatives were rejected and for what reason.
 
@@ -160,14 +160,14 @@ AZ failures are not theoretical. `ap-south-1` has had partial AZ outages. For a 
 
 ---
 
-## 🔐 Zone 1 — Client & Edge Layer
+## Zone 1 — Client & Edge Layer
 
 ```
 Mobile App (iOS/Android)    Web Browser (HTTPS)    API Partners
-        │                           │                    │
-        └───────────────────────────┴────────────────────┘
+                                                       
+        
                         HTTPS / TLS 1.3
-                               │
+                               
                          AWS Route 53
 ```
 
@@ -184,18 +184,18 @@ Cloudflare DNS resolves from Cloudflare's infrastructure. For an RBI-regulated e
 
 ---
 
-## 🌐 Zone 2 — Edge Protection & WAF
+## Zone 2 — Edge Protection & WAF
 
 ```
 Route 53
-   │
-AWS WAF ──── Block OWASP Top 10, SQLi, XSS, Rate Limiting
-   │
-AWS Shield Standard ──── Always-on DDoS protection (Layer 3/4)
-   │
-AWS CloudFront ──── Static assets ONLY (no PII caching)
-   │
-Application Load Balancer ──── PII API traffic goes here directly
+   
+AWS WAF  Block OWASP Top 10, SQLi, XSS, Rate Limiting
+   
+AWS Shield Standard  Always-on DDoS protection (Layer 3/4)
+   
+AWS CloudFront  Static assets ONLY (no PII caching)
+   
+Application Load Balancer  PII API traffic goes here directly
 ```
 
 ### AWS WAF — Why managed rules and not a custom WAF?
@@ -217,26 +217,26 @@ CloudFront is a CDN — it caches responses. Even with cache-control headers set
 
 ---
 
-## 🏰 Zone 3 — VPC & Network Isolation
+## Zone 3 — VPC & Network Isolation
 
 ```
-╔══════════════════════════════════════════════════════════════╗
-║  AWS VPC — ap-south-1 | CIDR: 10.0.0.0/16                  ║
-║                                                              ║
-║  ┌─────────────────────────────────────────────┐            ║
-║  │ PUBLIC SUBNET (10.0.1.0/24, 10.0.2.0/24)   │            ║
-║  │                                             │            ║
-║  │  [ALB]   [NAT Gateway AZ-a]  [NAT GW AZ-b] │            ║
-║  │                                             │            ║
-║  └─────────────────────────────────────────────┘            ║
-║                         │                                    ║
-║  ┌─────────────────────────────────────────────┐            ║
-║  │ PRIVATE SUBNET (10.0.3.0/24–10.0.8.0/24)   │            ║
-║  │                                             │            ║
-║  │  EC2s (Docker) │ RDS │ ElastiCache │ Lambda │            ║
-║  │                                             │            ║
-║  └─────────────────────────────────────────────┘            ║
-╚══════════════════════════════════════════════════════════════╝
+
+  AWS VPC — ap-south-1 | CIDR: 10.0.0.0/16                  
+                                                              
+              
+   PUBLIC SUBNET (10.0.1.0/24, 10.0.2.0/24)               
+                                                           
+    [ALB]   [NAT Gateway AZ-a]  [NAT GW AZ-b]             
+                                                           
+              
+                                                             
+              
+   PRIVATE SUBNET (10.0.3.0/24–10.0.8.0/24)               
+                                                           
+    EC2s (Docker)  RDS  ElastiCache  Lambda             
+                                                           
+              
+
 ```
 
 ### Why a custom VPC and not the default VPC?
@@ -257,27 +257,27 @@ One NAT Gateway per AZ. If NAT Gateway AZ-1a fails, EC2 instances in AZ-1a lose 
 
 ---
 
-## ⚙️ Zone 4 — Microservices on EC2 + ASG
+## Zone 4 — Microservices on EC2 + ASG
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  AUTO SCALING GROUP — Min:3, Max:12, Desired:3                  │
-│                                                                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │ EC2 (AZ-1a)  │  │ EC2 (AZ-1b)  │  │ EC2 (AZ-1c)  │          │
-│  │ t3.xlarge    │  │ t3.xlarge    │  │ t3.xlarge    │          │
-│  │ Docker Host  │  │ Docker Host  │  │ Docker Host  │          │
-│  │              │  │              │  │              │          │
-│  │ [API-GW :3000│  │ [API-GW :3000│  │ [API-GW :3000│          │
-│  │ [Auth   :8001│  │ [Auth   :8001│  │ [Auth   :8001│          │
-│  │ [KYC    :8002│  │ [KYC    :8002│  │ [KYC    :8002│          │
-│  │ [Notify :8003│  │ [Notify :8003│  │ [Notify :8003│          │
-│  │ [Audit  :8004│  │ [Audit  :8004│  │ [Audit  :8004│          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
-│                                                                  │
-│  Scale Out: CPU > 70% for 2min → +2 instances                   │
-│  Scale In:  CPU < 30% for 10min → -1 instance                   │
-└─────────────────────────────────────────────────────────────────┘
+
+  AUTO SCALING GROUP — Min:3, Max:12, Desired:3                  
+                                                                  
+                
+   EC2 (AZ-1a)     EC2 (AZ-1b)     EC2 (AZ-1c)            
+   t3.xlarge       t3.xlarge       t3.xlarge              
+   Docker Host     Docker Host     Docker Host            
+                                                          
+   [API-GW :3000   [API-GW :3000   [API-GW :3000          
+   [Auth   :8001   [Auth   :8001   [Auth   :8001          
+   [KYC    :8002   [KYC    :8002   [KYC    :8002          
+   [Notify :8003   [Notify :8003   [Notify :8003          
+   [Audit  :8004   [Audit  :8004   [Audit  :8004          
+                
+                                                                  
+  Scale Out: CPU > 70% for 2min → +2 instances                   
+  Scale In:  CPU < 30% for 10min → -1 instance                   
+
 ```
 
 ### The 5 Microservices — Responsibilities & Isolation
@@ -317,32 +317,32 @@ Total: ~4.3GB per host. t3.xlarge gives 16GB — comfortable headroom for OS + D
 
 ---
 
-## 🗄️ Zone 5 — Data Layer
+## Zone 5 — Data Layer
 
 ```
-                    ┌──────────────────────────────┐
-                    │     DATA TIER (Private SG)    │
-                    │                              │
-         ┌──────────▼──────────┐                  │
-         │    RDS Proxy        │ ← Connection pool  │
-         │    (IAM Auth only)  │                  │
-         └──────────┬──────────┘                  │
-                    │                              │
-    ┌───────────────┼───────────────┐              │
-    │               │               │              │
-┌───▼───┐      ┌────▼───┐      ┌───▼───┐          │
-│Primary│      │Standby │      │ Read  │          │
-│AZ-1a  │◄────►│AZ-1b   │      │Replica│          │
-│       │  sync│        │      │AZ-1c  │          │
-└───────┘      └────────┘      └───────┘          │
-  PostgreSQL Multi-AZ             async            │
-                                                   │
-  ┌──────────────┐  ┌──────────────┐               │
-  │  DynamoDB    │  │  ElastiCache │               │
-  │  On-demand   │  │  Redis Cluster│              │
-  │  Global Table│  │  3-node Multi│              │
-  └──────────────┘  └──────────────┘               │
-                    └──────────────────────────────┘
+                    
+                         DATA TIER (Private SG)    
+                                                  
+                           
+             RDS Proxy         ← Connection pool  
+             (IAM Auth only)                    
+                           
+                                                  
+                  
+                                                
+                      
+Primary      Standby        Read            
+AZ-1a  AZ-1b         Replica          
+         sync              AZ-1c            
+                      
+  PostgreSQL Multi-AZ             async            
+                                                   
+                   
+    DynamoDB        ElastiCache                
+    On-demand       Redis Cluster              
+    Global Table    3-node Multi              
+                   
+                    
 ```
 
 ### Why RDS PostgreSQL and not MySQL or Aurora?
@@ -374,33 +374,33 @@ Cluster mode shards data across multiple nodes. For rate limiting, this means th
 
 ---
 
-## 📦 Zone 6 — Sensitive Document Storage (S3)
+## Zone 6 — Sensitive Document Storage (S3)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                    Amazon S3 Buckets                         │
-│                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  fintech-kyc-documents-prod                         │    │
-│  │  ├── Encryption: SSE-KMS (CMK, rotate 90 days)      │    │
-│  │  ├── Object Lock: COMPLIANCE mode, 7-year retention │    │
-│  │  ├── Versioning: ON                                 │    │
-│  │  ├── Block Public Access: ALL ENABLED               │    │
-│  │  └── Access: KYC Service IAM role + VPC Endpoint    │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  fintech-audit-logs-archive                         │    │
-│  │  ├── Lifecycle: → Glacier after 90d → Delete 7yr   │    │
-│  │  └── Access: Audit Service + Compliance IAM role    │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  fintech-app-assets                                 │    │
-│  │  ├── Static frontend files ONLY — ZERO PII          │    │
-│  │  └── Served via CloudFront                         │    │
-│  └─────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────┘
+
+                    Amazon S3 Buckets                         
+                                                              
+      
+    fintech-kyc-documents-prod                             
+     Encryption: SSE-KMS (CMK, rotate 90 days)          
+     Object Lock: COMPLIANCE mode, 7-year retention     
+     Versioning: ON                                     
+     Block Public Access: ALL ENABLED                   
+     Access: KYC Service IAM role + VPC Endpoint        
+      
+                                                              
+      
+    fintech-audit-logs-archive                             
+     Lifecycle: → Glacier after 90d → Delete 7yr       
+     Access: Audit Service + Compliance IAM role        
+      
+                                                              
+      
+    fintech-app-assets                                     
+     Static frontend files ONLY — ZERO PII              
+     Served via CloudFront                             
+      
+
 ```
 
 ### Why S3 Object Lock in COMPLIANCE mode?
@@ -427,29 +427,29 @@ Without a VPC endpoint, S3 traffic routes through the public internet (even with
 
 ---
 
-## 🔑 Zone 7 — Security & Key Management
+## Zone 7 — Security & Key Management
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                   SECURITY SERVICES PANEL                   │
-│                                                             │
-│  ┌──────────┐  ┌────────────────┐  ┌──────────────────┐   │
-│  │  AWS KMS │  │ Secrets Manager│  │    AWS IAM       │   │
-│  │          │  │                │  │                  │   │
-│  │ CMK per  │  │ Rotate every   │  │ Service Roles    │   │
-│  │ service  │  │ 30 days (RDS)  │  │ No root usage    │   │
-│  │ Auto-rot │  │ Cross-region   │  │ Permission Bounds│   │
-│  │ 365 days │  │ replication    │  │ MFA on all humans│   │
-│  └──────────┘  └────────────────┘  └──────────────────┘   │
-│                                                             │
-│  ┌──────────┐  ┌────────────────┐  ┌──────────────────┐   │
-│  │ AWS Macie│  │    AWS ACM     │  │   GuardDuty      │   │
-│  │          │  │                │  │                  │   │
-│  │ Aadhaar  │  │ Auto-renew TLS │  │ ML anomaly det.  │   │
-│  │ PAN scan │  │ 60d before exp │  │ Isolate on alert │   │
-│  │ Alert SNS│  │ Mobile pinning │  │ All regions ON   │   │
-│  └──────────┘  └────────────────┘  └──────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+
+                   SECURITY SERVICES PANEL                   
+                                                             
+         
+    AWS KMS    Secrets Manager      AWS IAM          
+                                                     
+   CMK per     Rotate every      Service Roles       
+   service     30 days (RDS)     No root usage       
+   Auto-rot    Cross-region      Permission Bounds   
+   365 days    replication       MFA on all humans   
+         
+                                                             
+         
+   AWS Macie      AWS ACM          GuardDuty         
+                                                     
+   Aadhaar     Auto-renew TLS    ML anomaly det.     
+   PAN scan    60d before exp    Isolate on alert    
+   Alert SNS   Mobile pinning    All regions ON      
+         
+
 ```
 
 ### AWS KMS — Why separate CMKs per service?
@@ -480,27 +480,27 @@ Macie uses AWS's continuously updated ML models trained on PII patterns across b
 
 ---
 
-## 📨 Zone 8 — Messaging & Async Processing
+## Zone 8 — Messaging & Async Processing
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  MESSAGING & ASYNC LAYER                    │
-│                                                             │
-│         SQS FIFO                    SQS Standard            │
-│  ┌──────────────────┐       ┌──────────────────────┐       │
-│  │ kyc-processing   │       │ notification-queue    │       │
-│  │ Ordered processing│       │ Email / SMS delivery │       │
-│  │ Exactly-once     │       │                      │       │
-│  │ Dead-letter: 3x  │       │ Dead-letter: 3x retry│       │
-│  └──────────────────┘       └──────────────────────┘       │
-│                                                             │
-│       SNS Topics               Lambda Functions             │
-│  ┌────────────────┐       ┌──────────────────────────┐     │
-│  │compliance-alert│       │ lambda-pii-detector      │     │
-│  │kyc-status      │       │ lambda-secrets-rotator   │     │
-│  │system-alerts   │       │ lambda-compliance-checker│     │
-│  └────────────────┘       └──────────────────────────┘     │
-└─────────────────────────────────────────────────────────────┘
+
+                  MESSAGING & ASYNC LAYER                    
+                                                             
+         SQS FIFO                    SQS Standard            
+                
+   kyc-processing           notification-queue           
+   Ordered processing        Email / SMS delivery        
+   Exactly-once                                         
+   Dead-letter: 3x          Dead-letter: 3x retry       
+                
+                                                             
+       SNS Topics               Lambda Functions             
+              
+  compliance-alert        lambda-pii-detector           
+  kyc-status              lambda-secrets-rotator        
+  system-alerts           lambda-compliance-checker     
+              
+
 ```
 
 ### Why SQS FIFO for KYC and not standard SQS?
@@ -519,28 +519,28 @@ The PII detection Lambda is triggered by S3 `PutObject` events — it needs to r
 
 ---
 
-## 📊 Zone 9 — Monitoring, Observability & Incident Response
+## Zone 9 — Monitoring, Observability & Incident Response
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│               OBSERVABILITY & SECURITY OPERATIONS                │
-│                                                                  │
-│  CloudWatch          CloudTrail          GuardDuty               │
-│  ┌──────────┐        ┌──────────┐       ┌──────────────────┐    │
-│  │Log Groups│        │All-region│       │ML Threat Detect  │    │
-│  │Custom    │        │S3+CW logs│       │VPC Flow + DNS    │    │
-│  │Metrics   │        │Tamper det│       │Auto-isolate EC2  │    │
-│  │Dashboards│        │Validation│       │                  │    │
-│  └──────────┘        └──────────┘       └──────────────────┘    │
-│                                                                  │
-│  AWS Config          Security Hub        Inspector               │
-│  ┌──────────┐        ┌──────────┐       ┌──────────────────┐    │
-│  │Compliance│        │Aggregated│       │EC2 + Lambda CVE  │    │
-│  │Rules     │        │findings  │       │Container scanning│    │
-│  │Auto-fix  │        │PCI DSS   │       │Block deploy on   │    │
-│  │via SSM   │        │Standards │       │Critical vulns    │    │
-│  └──────────┘        └──────────┘       └──────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
+
+               OBSERVABILITY & SECURITY OPERATIONS                
+                                                                  
+  CloudWatch          CloudTrail          GuardDuty               
+                     
+  Log Groups        All-region       ML Threat Detect      
+  Custom            S3+CW logs       VPC Flow + DNS        
+  Metrics           Tamper det       Auto-isolate EC2      
+  Dashboards        Validation                             
+                     
+                                                                  
+  AWS Config          Security Hub        Inspector               
+                     
+  Compliance        Aggregated       EC2 + Lambda CVE      
+  Rules             findings         Container scanning    
+  Auto-fix          PCI DSS          Block deploy on       
+  via SSM           Standards        Critical vulns        
+                     
+
 ```
 
 ### Why CloudTrail in ALL regions and not just ap-south-1?
@@ -559,28 +559,28 @@ Manual compliance audits happen quarterly or annually. AWS Config rules evaluate
 
 ---
 
-## 🛡️ Zone 10 — Network Security Groups & VPC Endpoints
+## Zone 10 — Network Security Groups & VPC Endpoints
 
 ### Security Group Rules
 
 ```
 SG-ALB (faces internet)
-├── INBOUND:  TCP 443 from 0.0.0.0/0
-└── OUTBOUND: TCP 3000 to SG-EC2 ONLY
+ INBOUND:  TCP 443 from 0.0.0.0/0
+ OUTBOUND: TCP 3000 to SG-EC2 ONLY
 
 SG-EC2 (application tier)
-├── INBOUND:  TCP 3000-8004 from SG-ALB ONLY
-└── OUTBOUND: TCP 5432 → SG-RDS
+ INBOUND:  TCP 3000-8004 from SG-ALB ONLY
+ OUTBOUND: TCP 5432 → SG-RDS
               TCP 6379 → SG-Redis
               TCP 443  → AWS VPC Endpoints
 
 SG-RDS (data tier)
-├── INBOUND:  TCP 5432 from SG-EC2 ONLY
-└── OUTBOUND: (none — RDS never initiates connections)
+ INBOUND:  TCP 5432 from SG-EC2 ONLY
+ OUTBOUND: (none — RDS never initiates connections)
 
 SG-Redis (cache tier)
-├── INBOUND:  TCP 6379 from SG-EC2 ONLY
-└── OUTBOUND: (none)
+ INBOUND:  TCP 6379 from SG-EC2 ONLY
+ OUTBOUND: (none)
 ```
 
 ### Why no bastion host?
@@ -599,31 +599,31 @@ Interface endpoints for KMS, Secrets Manager, SQS, SNS, CloudWatch, SSM, ECR cos
 
 ---
 
-## 🚀 Zone 11 — CI/CD & Infrastructure Pipeline
+## Zone 11 — CI/CD & Infrastructure Pipeline
 
 ```
 GitHub (branch protection)
-    │
-    ▼
+    
+    
 AWS CodePipeline
-    │
-    ├── CodeBuild Stage 1: Security Scans
-    │   ├── SAST: SonarQube (code quality + security rules)
-    │   ├── Dependency Scan: OWASP Dependency-Check
-    │   ├── Secrets Scan: git-secrets (blocks hardcoded creds)
-    │   └── Docker Build → ECR push
-    │
-    ├── CodeBuild Stage 2: Container Scanning
-    │   └── ECR Enhanced Scanning via Inspector
-    │       (CRITICAL vuln = pipeline BLOCKED)
-    │
-    └── CodeDeploy Stage 3: Blue/Green Deploy
-        ├── Deploy to GREEN target group
-        ├── Run health checks (5 min)
-        ├── Shift 10% traffic → GREEN
-        ├── Monitor CloudWatch alarms (5 min)
-        ├── Shift 100% traffic → GREEN
-        └── Terminate BLUE (or auto-rollback on alarm)
+    
+     CodeBuild Stage 1: Security Scans
+        SAST: SonarQube (code quality + security rules)
+        Dependency Scan: OWASP Dependency-Check
+        Secrets Scan: git-secrets (blocks hardcoded creds)
+        Docker Build → ECR push
+    
+     CodeBuild Stage 2: Container Scanning
+        ECR Enhanced Scanning via Inspector
+           (CRITICAL vuln = pipeline BLOCKED)
+    
+     CodeDeploy Stage 3: Blue/Green Deploy
+         Deploy to GREEN target group
+         Run health checks (5 min)
+         Shift 10% traffic → GREEN
+         Monitor CloudWatch alarms (5 min)
+         Shift 100% traffic → GREEN
+         Terminate BLUE (or auto-rollback on alarm)
 ```
 
 ### Why Blue/Green and not rolling deployment?
@@ -638,24 +638,24 @@ A CRITICAL CVE in a container image that gets deployed means: you just knowingly
 
 ---
 
-## ♻️ Zone 12 — Disaster Recovery & Backup
+## Zone 12 — Disaster Recovery & Backup
 
 ```
 PRIMARY REGION                    DR REGION
 ap-south-1 (Mumbai)               ap-southeast-1 (Singapore)
-        │                                 │
-        │  ←─── RDS Cross-region ─────►   │
-        │        Read replica (RPO: 1h)   │
-        │                                 │
-        │  ←─── S3 CRR (all buckets) ───► │
-        │                                 │
-        │  ←─── DynamoDB Global Table ──► │
-        │                                 │
-        │  ←─── ECR Image Replication ──► │
-        │                                 │
-        │  ←─── Secrets Manager ────────► │
-        │        Cross-region replica     │
-        │                                 │
+                                         
+          ← RDS Cross-region    
+                Read replica (RPO: 1h)   
+                                         
+          ← S3 CRR (all buckets)  
+                                         
+          ← DynamoDB Global Table  
+                                         
+          ← ECR Image Replication  
+                                         
+          ← Secrets Manager  
+                Cross-region replica     
+                                         
     RTO: 4 hours           Warm standby ready
     RPO: 1 hour            Promote RDS replica
                            Update Route 53
@@ -685,24 +685,24 @@ Ransomware attacks against cloud infrastructure increasingly target backup syste
 
 ---
 
-## 📜 Zone 13 — Compliance & Regulatory Framework
+## Zone 13 — Compliance & Regulatory Framework
 
 ### PCI DSS Level 1
 
 | Requirement | Implementation | Status |
 |---|---|---|
-| Requirement 1: Network segmentation | VPC private subnets, Security Groups | ✅ |
-| Requirement 2: Secure configurations | Custom hardened AMI, SSM Patch Manager | ✅ |
-| Requirement 3: Protect stored cardholder data | KMS field-level encryption, S3 Object Lock | ✅ |
-| Requirement 4: Encrypt transmission | TLS 1.3 everywhere, certificate pinning | ✅ |
-| Requirement 5: Anti-malware | Inspector, ECR scanning, no direct SSH | ✅ |
-| Requirement 6: Secure development | SAST/DAST in pipeline, dependency scanning | ✅ |
-| Requirement 7: Access control | IAM least privilege, Permission Boundaries | ✅ |
-| Requirement 8: Identification & auth | MFA, IAM roles, Cognito for users | ✅ |
-| Requirement 9: Physical security | AWS data centers (inherited) | ✅ |
-| Requirement 10: Logging & monitoring | CloudTrail + CloudWatch + Security Hub | ✅ |
-| Requirement 11: Vulnerability testing | Inspector, GuardDuty, Config | ✅ |
-| Requirement 12: Information security policy | Documented via Config rules | ✅ |
+| Requirement 1: Network segmentation | VPC private subnets, Security Groups | [x] |
+| Requirement 2: Secure configurations | Custom hardened AMI, SSM Patch Manager | [x] |
+| Requirement 3: Protect stored cardholder data | KMS field-level encryption, S3 Object Lock | [x] |
+| Requirement 4: Encrypt transmission | TLS 1.3 everywhere, certificate pinning | [x] |
+| Requirement 5: Anti-malware | Inspector, ECR scanning, no direct SSH | [x] |
+| Requirement 6: Secure development | SAST/DAST in pipeline, dependency scanning | [x] |
+| Requirement 7: Access control | IAM least privilege, Permission Boundaries | [x] |
+| Requirement 8: Identification & auth | MFA, IAM roles, Cognito for users | [x] |
+| Requirement 9: Physical security | AWS data centers (inherited) | [x] |
+| Requirement 10: Logging & monitoring | CloudTrail + CloudWatch + Security Hub | [x] |
+| Requirement 11: Vulnerability testing | Inspector, GuardDuty, Config | [x] |
+| Requirement 12: Information security policy | Documented via Config rules | [x] |
 
 ### DPDP Act 2023 (Digital Personal Data Protection — India)
 
@@ -719,67 +719,67 @@ Ransomware attacks against cloud infrastructure increasingly target backup syste
 
 ---
 
-## 🔄 End-to-End KYC Data Flow
+## End-to-End KYC Data Flow
 
 ```
 ① User submits KYC with Aadhaar + PAN via HTTPS (TLS 1.3)
-          │
-          ▼
+          
+          
 ② Route 53 → CloudFront (static) | ALB (API traffic)
-          │
-          ▼
+          
+          
 ③ WAF inspects: OWASP rules, rate limit, geo-check
-          │
-          ▼
+          
+          
 ④ ALB routes to healthy EC2 Docker host → API Gateway container (port 3000)
-          │
-          ▼
+          
+          
 ⑤ API Gateway: Validates JWT (Cognito) + checks rate limit (Redis INCR)
-          │
-          ▼
+          
+          
 ⑥ Forwards to KYC Compliance Service (port 8002, Java/Spring)
-          │
-          ├──► ⑦ Calls Macie API to classify incoming payload fields
-          │
-          ├──► ⑧ Encrypts PAN, Aadhaar fields via KMS CMK (field-level)
-          │         Returns ciphertext — plaintext never written anywhere
-          │
-          ├──► ⑨ Writes encrypted fields to RDS via RDS Proxy (IAM auth)
-          │         kyc_records table: all PII columns pgcrypto-encrypted
-          │
-          ├──► ⑩ Uploads document scan to S3 kyc-documents (SSE-KMS)
-          │         Via VPC Gateway Endpoint — no public internet
-          │
-          ▼
+          
+           ⑦ Calls Macie API to classify incoming payload fields
+          
+           ⑧ Encrypts PAN, Aadhaar fields via KMS CMK (field-level)
+                   Returns ciphertext — plaintext never written anywhere
+          
+           ⑨ Writes encrypted fields to RDS via RDS Proxy (IAM auth)
+                   kyc_records table: all PII columns pgcrypto-encrypted
+          
+           ⑩ Uploads document scan to S3 kyc-documents (SSE-KMS)
+                   Via VPC Gateway Endpoint — no public internet
+          
+          
 ⑪ S3 PutObject triggers lambda-pii-detector
-          │         Validates: no raw PII in object metadata, tags, ACLs
-          │
-          ▼
+                   Validates: no raw PII in object metadata, tags, ACLs
+          
+          
 ⑫ KYC Service pushes processing job to SQS FIFO queue
-          │         MessageGroupId = user_id (ordered delivery)
-          │
-          ▼
+                   MessageGroupId = user_id (ordered delivery)
+          
+          
 ⑬ Audit Log Service (port 8004, Go) records:
-          │         who (user_id + IAM role), what (KYC submission),
-          │         when (timestamp), from where (IP, user agent),
-          │         result (success/failure) → CloudWatch + S3 audit bucket
-          │
-          ▼
+                   who (user_id + IAM role), what (KYC submission),
+                   when (timestamp), from where (IP, user agent),
+                   result (success/failure) → CloudWatch + S3 audit bucket
+          
+          
 ⑭ Notification Service (port 8003) sends status update
-          │         Via SQS notification-queue → SES (email) / SNS (SMS)
-          │         Uses only user_id — never touches PII fields
-          │
-          ▼
+                   Via SQS notification-queue → SES (email) / SNS (SMS)
+                   Uses only user_id — never touches PII fields
+          
+          
 ⑮ CloudTrail logs every API call, KMS operation, S3 access, IAM action
-          │
-          ▼
+          
+          
 ⑯ GuardDuty + Security Hub monitor the entire flow for anomalies
-          │         Unusual access pattern? → SNS alert → PagerDuty in seconds
+                   Unusual access pattern? → SNS alert → PagerDuty in seconds
 ```
 
 ---
 
-## 🧮 Technology Decision Matrix
+## Technology Decision Matrix
 
 | Decision | Chosen | Rejected Options | Reason Chosen |
 |---|---|---|---|
@@ -799,13 +799,13 @@ Ransomware attacks against cloud infrastructure increasingly target backup syste
 
 ---
 
-## 📐 Scalability Model
+## Scalability Model
 
 ### Horizontal Scaling (ASG)
 
 ```
 Traffic Pattern         ASG Response
-────────────────────────────────────────
+
 Normal (3 instances)   → Handle up to ~600 req/sec
 Morning rush (+2)      → CPU > 70% for 2min → scale to 5
 Peak KYC window (+4)   → CPU > 70% for 2min → scale to 9
@@ -846,7 +846,7 @@ RDS scaling path:
 
 ---
 
-## 💰 Cost Architecture Considerations
+## Cost Architecture Considerations
 
 ### Why this architecture is cost-optimized for fintech
 
@@ -872,63 +872,63 @@ RDS scaling path:
 
 ---
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 ```
 fintech-compliance-platform/
-│
-├── 📁 infrastructure/
-│   ├── 📁 terraform/
-│   │   ├── vpc.tf                    # VPC, subnets, route tables
-│   │   ├── ec2_asg.tf                # EC2 launch template, ASG, ALB
-│   │   ├── rds.tf                    # RDS PostgreSQL, RDS Proxy, replicas
-│   │   ├── elasticache.tf            # Redis cluster
-│   │   ├── dynamodb.tf               # Tables, global tables
-│   │   ├── s3.tf                     # Buckets, lifecycle, object lock
-│   │   ├── kms.tf                    # CMKs per service
-│   │   ├── iam.tf                    # Roles, policies, permission bounds
-│   │   ├── security.tf               # WAF, Shield, GuardDuty, Macie
-│   │   ├── monitoring.tf             # CloudWatch, CloudTrail, Config
-│   │   └── secrets.tf                # Secrets Manager, rotation Lambdas
-│   │
-│   └── 📁 docker/
-│       ├── docker-compose.yml        # Local development stack
-│       └── hardened-base/
-│           └── Dockerfile            # Base image (minimal, security-patched)
-│
-├── 📁 services/
-│   ├── 📁 api-gateway/               # Node.js (port 3000)
-│   ├── 📁 auth-service/              # Python/FastAPI (port 8001)
-│   ├── 📁 kyc-compliance/            # Java/Spring Boot (port 8002)
-│   ├── 📁 notification-service/      # Node.js (port 8003)
-│   └── 📁 audit-log-service/         # Go (port 8004)
-│
-├── 📁 lambda/
-│   ├── pii-detector/                 # S3 trigger, Macie classification
-│   ├── secrets-rotator/              # RDS credential rotation
-│   └── compliance-checker/           # Scheduled KYC expiry check
-│
-├── 📁 .github/
-│   └── 📁 workflows/
-│       ├── security-scan.yml         # SAST, dependency, secrets scan
-│       ├── build-push.yml            # Docker build, ECR push, scan
-│       └── deploy.yml                # Blue/Green via CodeDeploy
-│
-├── 📁 docs/
-│   ├── 📁 architecture/
-│   │   ├── system-design.png         # Eraser.io exported diagram
-│   │   └── data-flow.md              # KYC data flow documentation
-│   ├── runbook-incident-response.md  # GuardDuty alert → action steps
-│   ├── runbook-dr-failover.md        # DR region activation procedure
-│   └── compliance-matrix.md          # PCI DSS / RBI / DPDP mapping
-│
-└── 📁 assets/
-    └── architecture.png              # ← Your Eraser.io diagram goes here
+
+  infrastructure/
+     terraform/
+       vpc.tf                    # VPC, subnets, route tables
+       ec2_asg.tf                # EC2 launch template, ASG, ALB
+       rds.tf                    # RDS PostgreSQL, RDS Proxy, replicas
+       elasticache.tf            # Redis cluster
+       dynamodb.tf               # Tables, global tables
+       s3.tf                     # Buckets, lifecycle, object lock
+       kms.tf                    # CMKs per service
+       iam.tf                    # Roles, policies, permission bounds
+       security.tf               # WAF, Shield, GuardDuty, Macie
+       monitoring.tf             # CloudWatch, CloudTrail, Config
+       secrets.tf                # Secrets Manager, rotation Lambdas
+   
+     docker/
+        docker-compose.yml        # Local development stack
+        hardened-base/
+            Dockerfile            # Base image (minimal, security-patched)
+
+  services/
+     api-gateway/               # Node.js (port 3000)
+     auth-service/              # Python/FastAPI (port 8001)
+     kyc-compliance/            # Java/Spring Boot (port 8002)
+     notification-service/      # Node.js (port 8003)
+     audit-log-service/         # Go (port 8004)
+
+  lambda/
+    pii-detector/                 # S3 trigger, Macie classification
+    secrets-rotator/              # RDS credential rotation
+    compliance-checker/           # Scheduled KYC expiry check
+
+  .github/
+     workflows/
+        security-scan.yml         # SAST, dependency, secrets scan
+        build-push.yml            # Docker build, ECR push, scan
+        deploy.yml                # Blue/Green via CodeDeploy
+
+  docs/
+     architecture/
+       system-design.png         # Eraser.io exported diagram
+       data-flow.md              # KYC data flow documentation
+    runbook-incident-response.md  # GuardDuty alert → action steps
+    runbook-dr-failover.md        # DR region activation procedure
+    compliance-matrix.md          # PCI DSS / RBI / DPDP mapping
+
+  assets/
+     architecture.png              # ← Your Eraser.io diagram goes here
 ```
 
 ---
 
-## 🖼️ Eraser.io Generation Prompt
+## Eraser.io Generation Prompt
 
 <details>
 <summary><strong>Click to expand the full Eraser.io prompt — paste this to generate your architecture diagram</strong></summary>
@@ -1130,10 +1130,10 @@ AWS Backup with Vault Lock (immutable, cross-account copy)
 ZONE 13 — COMPLIANCE BADGE PANEL
 
 Show compliance achieved:
-✅ PCI DSS Level 1
-✅ RBI IT Framework
-✅ DPDP Act 2023
-✅ Data Localization (ap-south-1 primary)
+[x] PCI DSS Level 1
+[x] RBI IT Framework
+[x] DPDP Act 2023
+[x] Data Localization (ap-south-1 primary)
 
 ---
 
@@ -1186,7 +1186,7 @@ DIAGRAM STYLE:
 
 ---
 
-## 🏁 Credits
+## Credits
 
 <br/>
 
@@ -1195,13 +1195,13 @@ DIAGRAM STYLE:
 <br/>
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║                                                                  ║
-║         Designed & Architected by  Yuvraj Sonaja                 ║
-║                                                                  ║
-║    Full-Stack Engineer · AWS Cloud Architect · Fintech Builder   ║
-║                                                                  ║
-╚══════════════════════════════════════════════════════════════════╝
+
+                                                                  
+         Designed & Architected by  Yuvraj Sonaja                 
+                                                                  
+    Full-Stack Engineer · AWS Cloud Architect · Fintech Builder   
+                                                                  
+
 ```
 
 [![GitHub](https://img.shields.io/badge/GitHub-Yuvraj%20Sonaja-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com)
@@ -1217,7 +1217,7 @@ DIAGRAM STYLE:
 
 <br/>
 
-![Made with Love](https://img.shields.io/badge/Made%20with-❤️%20in%20India-FF9933?style=for-the-badge)
+![Made with Love](https://img.shields.io/badge/Made%20with-love%20in%20India-FF9933?style=for-the-badge)
 ![AWS](https://img.shields.io/badge/Powered%20by-AWS%20ap--south--1-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 
 </div>
