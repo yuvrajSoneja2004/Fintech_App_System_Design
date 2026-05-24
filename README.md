@@ -1194,6 +1194,5 @@ DIAGRAM STYLE:
 <br/>
 
 ![Made with Love](https://img.shields.io/badge/Made%20with-love%20in%20India-FF9933?style=for-the-badge)
-![AWS](https://img.shields.io/badge/Powered%20by-AWS%20ap--south--1-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 
 </div>
