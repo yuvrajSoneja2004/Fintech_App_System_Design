@@ -1173,7 +1173,7 @@ DIAGRAM STYLE:
 ```
 
                                                                   
-         Designed & Architected by  Yuvraj Sonaja                 
+         Designed & Architected by  Yuvraj Soneja                 
                                                                   
     Full-Stack Engineer · AWS Cloud Architect · Fintech Builder   
                                                                   
